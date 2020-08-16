@@ -45,7 +45,7 @@ def index():
     
     # Number of messages in different categories
     series = round(df.iloc[:,4:].sum()/ df.shape[0],2)
-    series.sort_values(ascending= True, inplace= True)
+    series.sort_values(ascending= False, inplace= True)
 
     graphs = [
         {
@@ -69,15 +69,15 @@ def index():
         {
             'data': [
                 Bar(
-                    x=series.values,
-                    y= series.index
+                    y=series.values,
+                    x= series.index
                 )],
             'layout': {
                 'title': 'Distribution of Message across categories',
                 'yaxis': {
-                    'title': "Categories"
+                    'title': "Relative frequency"
                 },
-                'xaxis': {'title': "Relative frequency"}}}
+                'xaxis': {'title': "Categories"}}}
     ]
     
     # encode plotly graphs in JSON
