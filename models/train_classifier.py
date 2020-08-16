@@ -19,7 +19,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.multioutput import MultiOutputClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report, f1_score, make_scorer
 import pickle
@@ -87,10 +87,10 @@ def build_model():
         ('clf', MultiOutputClassifier(RandomForestClassifier()))])
     
     # Setting up a grid search with Random forest to find the best parameters
-    parameters = {'clf__estimator__max_depth': [ None], # [200,300, None]
+    parameters = {'clf__estimator__max_depth': [300], # [200,300, None]
                  #'clf__estimator__min_samples_leaf': [1,4],
                  #'clf__estimator__min_samples_split': [2,5],
-                  'clf__estimator__n_estimators': [100, 150],
+                  'clf__estimator__n_estimators': [80], # [20,80
                   #'tfidf__use_idf':[True, False]
                  }
     
@@ -99,7 +99,20 @@ def build_model():
 
     cv = GridSearchCV(estimator= pipeline, param_grid= parameters, scoring= my_scorer, cv=3, verbose= 2, n_jobs= 2 )
     
-    return cv                         
+    #Using Ada Boost Classifier algorithm for classification
+    pipeline2 = Pipeline(
+    [ ('vect', CountVectorizer(tokenizer= tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', MultiOutputClassifier(AdaBoostClassifier() ))
+    ])
+    # Setting different possible hyper-parameter values
+    parameter2= {'clf__estimator__learning_rate': [1], # [0.1,1,10]
+     'clf__estimator__n_estimators': [100], # [80,100,150,200]
+    }
+
+    cv2 = GridSearchCV(estimator= pipeline2, param_grid= parameter2, scoring= my_scorer, cv=3, verbose= 2, n_jobs= 3)
+
+    return cv2                        
                          
 def evaluate_model(model, X_test, y_test, category_names):
     """Function to find the F1 score for the test dataset using the trained model. It prints the necessary metrics (precision, recall and F1 score) for each ooutput column and\
