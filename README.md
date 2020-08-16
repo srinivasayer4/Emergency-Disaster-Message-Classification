@@ -9,6 +9,7 @@ F1 score was the key metric that I was using to analyze the performance of the m
 Random Forest Classifier helped me get a test F1 score of **0.65** when I micro averaged it across the multi-label output. <br>
 Ada Boost Classifier helped to get a test F1 score of **0.67** on micro averaging it across multi-label output. This classifier was used in the web app.
 
+
 ## 2. Files Structure
 All the files are divided into following parts-
 #### a) App folder:
@@ -32,6 +33,7 @@ It contains the following files-
 
 There are also the ETL and Machine learning Jupyter notebooks present that show the preliminary analysis.
 
+
 ## 3. Installation
 Pandas, Numpy, SQLAlchemy, sklearn and pickle were the key libraries used in this project. However, in order to build an NLP pipeline NLTK package was extensively used.
 Corpus, Tokenize and Stem were the modules mainly used from the NLTK package.
@@ -42,6 +44,10 @@ b) Go to the root directory that has the data and the model from your terminal.
 c) To run the ETL script type: *python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db*
 d) To run the Machine Learning pipeline scipt type: *python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl*
 e) To run the web app type: *python app/run.py*
+f) Open localhost:3001 on the web browser to access the webapp on the local desktop.
+
+The screenshot of the web-app is attached as a file.
+
 
 ## 4. License
 The MIT License (MIT)
